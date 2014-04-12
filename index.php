@@ -1,30 +1,24 @@
 <?php
-
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$database = 'sekolah';
-//step 1:koneksi ke server
-$konek = mysqli_connect($host, $user, $pass) or die(mysql_error());  //mysql_connect =>true/false (bool)
-if (!$konek) {
-    echo 'koneksi ke server :' . $host . ' tidak dapat dilakukan';
-    exit();
-}
-//step 2:koneksi ke database
-$konek_db = mysqli_select_db($konek, $database);
-if (!$konek_db) {
-    echo 'koneksi ke database :' . $database . ' tidak dapat dilakukan';
-    exit();
-}
+include 'koneksi.php';
 //step3 : query (insert, update, delete dll)
 $perintah = "select*from mapel";
 $query = mysqli_query($konek, $perintah);
-while ($hasil = mysqli_fetch_array($query)) {
-    echo 'Nama mapel : ' . $hasil['nama'];
-    echo '<br>';
-    #start debug information
-    //echo '<pre>';
-    //print_r($hasil);
-    //echo '</pre>';
-    #end debug info
-}
+?>
+<table border="1">
+    <tr>
+        <td>ID</td>
+        <td>Kode</td>
+        <td>Nama</td>
+    </tr>
+    <?php
+    while ($hasil = mysqli_fetch_array($query)) {
+        ?>
+        <tr>
+            <td><?php echo $hasil['id']; ?></td>
+            <td><?php echo $hasil['kode']; ?></td>
+            <td><?php echo $hasil['nama']; ?></td>
+        </tr>
+        <?php
+    }
+    ?>
+</table>
